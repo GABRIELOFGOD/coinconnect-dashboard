@@ -136,7 +136,7 @@ const WalletLayer = () => {
                           </span>
                         </td> */}
                         <td>
-                          <div
+                          {/* <div
                             className='progress w-100  bg-primary-50 rounded-pill h-8-px'
                             role='progressbar'
                             aria-label='Basic example'
@@ -148,6 +148,24 @@ const WalletLayer = () => {
                               className='progress-bar bg-primary-600 rounded-pill'
                               style={{ width: "50%" }}
                             />
+                          </div> */}
+                          <div className='form-switch switch-primary position-relative'>
+                            <label
+                              htmlFor={coin.symbol}
+                              className='position-absolute w-100 h-100 start-0 top-0'
+                            />
+                            <div>
+                              {/* <span className='form-check-label line-height-1 fw-medium text-secondary-light'>
+                                Push Notification
+                              </span> */}
+                              <input
+                                className='form-check-input'
+                                type='checkbox'
+                                role='switch'
+                                id={coin.symbol}
+                                defaultChecked=''
+                              />
+                            </div>
                           </div>
                         </td>
                       </tr>

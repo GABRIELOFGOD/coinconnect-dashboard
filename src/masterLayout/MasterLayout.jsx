@@ -403,7 +403,10 @@ const MasterLayout = ({ children }) => {
             {/* Crypto Currency Dropdown */}
             <li> {/* className='dropdown' removed but duplicated below incase of restoration */}
             {/* <li className='dropdown'> */}
-              <Link href='/wallet'>
+              <Link
+                href='/wallet'
+                className={pathname === "/wallet" ? "active-page" : ""}
+              >
                 <i className='ri-robot-2-line mr-10' />
                 <span>Wallet</span> {/* <span>Crypto Currency</span> removed and replaced with wallet, event the Link above has an href="#" but I replaced it with wallet, initial span commented out below */}
                 {/* <span>Crypto Currency</span> */}
