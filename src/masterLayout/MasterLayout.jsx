@@ -787,7 +787,10 @@ const MasterLayout = ({ children }) => {
             {/* Users Dropdown */}
             <li> {/* className='dropdown' removed but duplicated below incase of restoration */}
             {/* <li className='dropdown'> */}
-              <Link href='/users-list'>
+              <Link
+                href='/users-list'
+                className={pathname === "/users-list" ? "active-page" : ""}
+              >
                 <Icon
                   icon='flowbite:users-group-outline'
                   className='menu-icon'
