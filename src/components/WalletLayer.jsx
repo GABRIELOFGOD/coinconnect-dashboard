@@ -1,3 +1,4 @@
+import { coins } from "@/data/coin";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
@@ -5,7 +6,7 @@ const WalletLayer = () => {
   return (
     <>
       <div className='row gy-4'>
-        <div className='col-lg-9'>
+        <div className='col-lg-12'>
           <div className='card h-100 p-0 radius-12'>
             {/* <div className='card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between'>
               <div className='d-flex align-items-center flex-wrap gap-3'>
@@ -81,7 +82,7 @@ const WalletLayer = () => {
                           S.L
                         </div>
                       </th>
-                      <th scope='col'>Aset</th>
+                      <th scope='col'>Asset</th>
                       <th scope='col'>Amount</th>
                       {/* <th scope='col'>Price</th>
                       <th scope='col'>Change %</th> */}
@@ -89,6 +90,70 @@ const WalletLayer = () => {
                     </tr>
                   </thead>
                   <tbody>
+                    {coins.map((coin, i) => (
+                      <tr
+                        key={i}
+                      >
+                        <td>
+                          <div className='d-flex align-items-center gap-10'>
+                            <div className='form-check style-check d-flex align-items-center'>
+                              <input
+                                className='form-check-input radius-4 border border-neutral-400'
+                                type='checkbox'
+                                name='checkbox'
+                                id={i+1}
+                              />
+                            </div>
+                            {i+1}
+                          </div>
+                        </td>
+                        <td>
+                          <Link
+                            href='/marketplace-details'
+                            className='d-flex align-items-center'
+                          >
+                            <img
+                              src='assets/images/crypto/crypto-img1.png'
+                              alt='Wowdash'
+                              className='w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden'
+                            />
+                            <span className='flex-grow-1 d-flex flex-column'>
+                              <span className='text-md mb-0 fw-medium text-primary-light d-block'>
+                                {coin.name}
+                              </span>
+                              <span className='text-xs mb-0 fw-normal text-secondary-light'>
+                                {coin.symbol}
+                              </span>
+                            </span>
+                          </Link>
+                        </td>
+                        <td>{coin.amount} {coin.symbol}</td>
+                        {/* <td>$2,753.00</td> */}
+                        {/* <td>
+                          <span className='bg-success-focus text-success-600 px-16 py-6 rounded-pill fw-semibold text-xs'>
+                            <i className='ri-arrow-up-s-fill' />
+                            1.37%
+                          </span>
+                        </td> */}
+                        <td>
+                          <div
+                            className='progress w-100  bg-primary-50 rounded-pill h-8-px'
+                            role='progressbar'
+                            aria-label='Basic example'
+                            aria-valuenow={50}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                          >
+                            <div
+                              className='progress-bar bg-primary-600 rounded-pill'
+                              style={{ width: "50%" }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  {/* <tbody>
                     <tr>
                       <td>
                         <div className='d-flex align-items-center gap-10'>
@@ -669,7 +734,7 @@ const WalletLayer = () => {
                         </div>
                       </td>
                     </tr>
-                  </tbody>
+                  </tbody> */}
                 </table>
               </div>
               <div className='d-flex align-items-center justify-content-between flex-wrap gap-2 mt-24'>
@@ -737,7 +802,7 @@ const WalletLayer = () => {
             </div>
           </div>
         </div>
-        <div className='col-lg-3'>
+        {/* <div className='col-lg-3'>
           <div className='card h-100'>
             <div className='card-body p-0'>
               <div className='px-24 py-20'>
@@ -886,7 +951,7 @@ const WalletLayer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* Modal Edit Currecny */}
       <div
