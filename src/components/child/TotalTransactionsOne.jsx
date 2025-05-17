@@ -9,7 +9,7 @@ const TotalTransactionsOne = () => {
   let { transactionLineChartSeries, transactionLineChartOptions } =
     useReactApexChart();
   return (
-    <div className='col-xxl-6'>
+    <div className='col-xxl-12'>
       <div className='card h-100'>
         <div className='card-body p-24'>
           <div className='d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20'>

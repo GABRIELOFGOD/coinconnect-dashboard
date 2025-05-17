@@ -17,7 +17,7 @@ const Page = () => {
         {/* Breadcrumb */}
         <Breadcrumb title='Investments' />
 
-        <DashBoardLayerFive /> {/* DashBoardLayerOne was here before, I commented it out below and replaced it with DashboadLayerFive */}
+         <DashBoardLayerFive /> {/* DashBoardLayerOne was here before, I commented it out below and replaced it with DashboadLayerFive */}
         {/* DashBoardLayerOne */}
         {/* <DashBoardLayerOne /> */}
       </MasterLayout>

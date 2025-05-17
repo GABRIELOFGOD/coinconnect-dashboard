@@ -79,8 +79,8 @@ const UsersListLayer = () => {
                 <th scope='col'>Join Date</th>
                 <th scope='col'>Name</th>
                 <th scope='col'>Email</th>
-                <th scope='col'>Department</th>
-                <th scope='col'>Designation</th>
+                {/* <th scope='col'>Department</th>
+                <th scope='col'>Designation</th> */}
                 <th scope='col' className='text-center'>
                   Status
                 </th>
@@ -123,8 +123,8 @@ const UsersListLayer = () => {
                     osgoodwy@gmail.com
                   </span>
                 </td>
-                <td>HR</td>
-                <td>Manager</td>
+                {/* <td>HR</td>
+                <td>Manager</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -192,8 +192,8 @@ const UsersListLayer = () => {
                     redaniel@gmail.com
                   </span>
                 </td>
-                <td>Design</td>
-                <td>UI UX Designer</td>
+                {/* <td>Design</td>
+                <td>UI UX Designer</td> */}
                 <td className='text-center'>
                   <span className='bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm'>
                     Inactive
@@ -261,8 +261,8 @@ const UsersListLayer = () => {
                     seannand@mail.ru
                   </span>
                 </td>
-                <td>Design</td>
-                <td>UI UX Designer</td>
+                {/* <td>Design</td>
+                <td>UI UX Designer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -330,8 +330,8 @@ const UsersListLayer = () => {
                     miyokoto@mail.ru
                   </span>
                 </td>
-                <td>Design</td>
-                <td>UI UX Designer</td>
+                {/* <td>Design</td>
+                <td>UI UX Designer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -399,8 +399,8 @@ const UsersListLayer = () => {
                     icadahli@gmail.com
                   </span>
                 </td>
-                <td>Design</td>
-                <td>UI UX Designer</td>
+                {/* <td>Design</td>
+                <td>UI UX Designer</td> */}
                 <td className='text-center'>
                   <span className='bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm'>
                     Inactive
@@ -468,8 +468,8 @@ const UsersListLayer = () => {
                     warn@mail.ru
                   </span>
                 </td>
-                <td>Design</td>
-                <td>UI UX Designer</td>
+                {/* <td>Design</td>
+                <td>UI UX Designer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -537,8 +537,8 @@ const UsersListLayer = () => {
                     zitka@mail.ru
                   </span>
                 </td>
-                <td>Development</td>
-                <td>Frontend developer</td>
+                {/* <td>Development</td>
+                <td>Frontend developer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -606,8 +606,8 @@ const UsersListLayer = () => {
                     igerrin@gmail.com
                   </span>
                 </td>
-                <td>Development</td>
-                <td>Frontend developer</td>
+                {/* <td>Development</td>
+                <td>Frontend developer</td> */}
                 <td className='text-center'>
                   <span className='bg-neutral-200 text-neutral-600 border border-neutral-400 px-24 py-4 radius-4 fw-medium text-sm'>
                     Inactive
@@ -675,8 +675,8 @@ const UsersListLayer = () => {
                     maka@yandex.ru
                   </span>
                 </td>
-                <td>Development</td>
-                <td>Frontend developer</td>
+                {/* <td>Development</td>
+                <td>Frontend developer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active
@@ -744,8 +744,8 @@ const UsersListLayer = () => {
                     danten@mail.ru
                   </span>
                 </td>
-                <td>Development</td>
-                <td>Frontend developer</td>
+                {/* <td>Development</td>
+                <td>Frontend developer</td> */}
                 <td className='text-center'>
                   <span className='bg-success-focus text-success-600 border border-success-main px-24 py-4 radius-4 fw-medium text-sm'>
                     Active

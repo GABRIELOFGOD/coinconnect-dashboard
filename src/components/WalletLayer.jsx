@@ -86,7 +86,7 @@ const WalletLayer = () => {
                       <th scope='col'>Amount</th>
                       {/* <th scope='col'>Price</th>
                       <th scope='col'>Change %</th> */}
-                      <th scope='col'>Allocation</th>
+                      <th scope='col'>Status</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -130,15 +130,19 @@ const MasterLayout = ({ children }) => {
         </div>
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
-            <li className='dropdown'>
-              <Link href='#'>
+            <li>
+            {/* <li className='dropdown'> */}
+              <Link
+                href='/'
+                className={pathname === "/" ? "active-page" : ""}
+              >
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
                 />
                 <span>Dashboard</span>
               </Link>
-              <ul className='sidebar-submenu'>
+              {/* <ul className='sidebar-submenu'>
                 <li>
                   <Link
                     href='/'
@@ -148,7 +152,7 @@ const MasterLayout = ({ children }) => {
                     Investments
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href='/index-2'
                     className={pathname === "/index-2" ? "active-page" : ""}
@@ -237,11 +241,11 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-info-main w-auto' />{" "}
                     Finance & Banking
                   </Link>
-                </li> */}
-              </ul>
+                </li>
+              </ul> */}
             </li>
 
-            <li className='sidebar-menu-group-title'>Application</li>
+            {/* <li className='sidebar-menu-group-title'>Application</li> */}
             {/* <li>
               <Link
                 href='/email'
@@ -453,7 +457,7 @@ const MasterLayout = ({ children }) => {
               </ul> */}
             </li>
 
-            <li className='sidebar-menu-group-title'>UI Elements</li>
+            {/* <li className='sidebar-menu-group-title'>UI Elements</li> */}
 
             {/* Components Dropdown */}
             {/* <li className='dropdown'>
@@ -867,7 +871,7 @@ const MasterLayout = ({ children }) => {
               </ul>
             </li> */}
 
-            <li className='sidebar-menu-group-title'>Application</li>
+            {/* <li className='sidebar-menu-group-title'>Application</li> */}
 
             {/* Authentication Dropdown */}
             {/* <li className='dropdown'>
@@ -1134,33 +1138,7 @@ const MasterLayout = ({ children }) => {
                     Notification Alert
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href='/theme'
-                    className={pathname === "/theme" ? "active-page" : ""}
-                  >
-                    <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
-                    Theme
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href='/currencies'
-                    className={pathname === "/currencies" ? "active-page" : ""}
-                  >
-                    <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
-                    Currencies
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href='/language'
-                    className={pathname === "/language" ? "active-page" : ""}
-                  >
-                    <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
-                    Languages
-                  </Link>
-                </li>
+                {/* <li/ */}
                 <li>
                   <Link
                     href='/payment-gateway'
