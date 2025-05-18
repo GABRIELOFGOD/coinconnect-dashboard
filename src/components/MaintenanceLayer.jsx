@@ -9,7 +9,7 @@ const MaintenanceLayer = () => {
             <img src='assets/images/logo.png' alt='' />
           </Link>
           <Link href='/' className='btn btn-outline-primary-600 text-sm'>
-            {" "}
+            {"   "}
             Go To Home{" "}
           </Link>
         </div>
