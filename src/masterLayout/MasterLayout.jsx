@@ -1,15 +1,26 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ThemeToggleButton from "../helper/ThemeToggleButton";
 import Link from "next/link";
+import { useAuth } from "@/provider/authProvider";
 
 const MasterLayout = ({ children }) => {
   let pathname = usePathname();
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
-  const location = usePathname(); // Hook to get the current route
+  const location = usePathname();
+
+  const router = useRouter();
+  
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/sign-in");
+    }
+  }, [user, router]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -1,7 +1,30 @@
+"use client";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { useAuth } from "@/provider/authProvider";
+import { useRouter } from "next/navigation";
 
 const SignInLayer = () => {
+
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const res = await login(email, password);
+      if (res.access_token) {
+        localStorage.setItem("token", res.access_token);
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -20,7 +43,7 @@ const SignInLayer = () => {
               Welcome back! please enter your detail
             </p>
           </div>
-          <form action='#'>
+          <form onSubmit={handleSubmit}>
             <div className='icon-field mb-16'>
               <span className='icon top-50 translate-middle-y'>
                 <Icon icon='mage:email' />
@@ -29,6 +52,7 @@ const SignInLayer = () => {
                 type='email'
                 className='form-control h-56-px bg-neutral-50 radius-12'
                 placeholder='Email'
+                name='email'
               />
             </div>
             <div className='position-relative mb-20'>
@@ -41,6 +65,7 @@ const SignInLayer = () => {
                   className='form-control h-56-px bg-neutral-50 radius-12'
                   id='your-password'
                   placeholder='Password'
+                  name='password'
                 />
               </div>
               <span
