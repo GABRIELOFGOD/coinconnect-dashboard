@@ -3,7 +3,6 @@
 import { API_URL } from "@/utils/constants";
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
-
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -34,20 +33,27 @@ export const AuthProvider = ({ children }) => {
         return res.data;
       } catch (err) {
         throw err.response?.data || err;
-      }    
+      }
     }
 
     async function getProfile() {
       const token = localStorage.getItem("token");
-    
+      if (!token) {
+        return window.location.href = "/sign-in";
+      }
       try {
         const res = await axios.get(`${API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        return res.data;
+        
+        setUser(res.data);
       } catch (err) {
+        console.log("ERROR: ", err)
+        localStorage.removeItem("token");
+        setUser(null);
+        window.location.href = "/sign-in";
         throw err.response?.data || err;
       }
     }    

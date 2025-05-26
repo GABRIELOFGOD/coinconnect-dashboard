@@ -14,11 +14,11 @@ const MasterLayout = ({ children }) => {
 
   const router = useRouter();
   
-  const { user } = useAuth();
+  const { user, getProfile } = useAuth();
 
   useEffect(() => {
     if (!user) {
-      router.push("/sign-in");
+      getProfile();
     }
   }, [user, router]);
 

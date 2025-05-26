@@ -4,24 +4,32 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { useAuth } from "@/provider/authProvider";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const SignInLayer = () => {
 
   const { login } = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     try {
       e.preventDefault();
       const email = e.target.email.value;
       const password = e.target.password.value;
       const res = await login(email, password);
       if (res.access_token) {
+        toast.success("Login Successfully");
         localStorage.setItem("token", res.access_token);
         router.push("/");
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.detail);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,10 +101,10 @@ const SignInLayer = () => {
             </div>
             <button
               type='submit'
-              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
+              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32 disabled:opacity-50 disabled:cursor-not-allowed'
+              disabled={loading}
             >
-              {" "}
-              Sign In
+              {loading ? "Signing In..." : "Sign In"}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
               <span className='bg-base z-1 px-4'>Or sign in with</span>

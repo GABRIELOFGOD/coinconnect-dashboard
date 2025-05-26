@@ -1,7 +1,34 @@
+"use client";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
-
+import { useAuth } from "@/provider/authProvider";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { useState } from "react";
 const SignUpLayer = () => {
+  const { register } = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    try {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const userData = Object.fromEntries(formData);
+      const res = await register(userData);
+      if (res.message) {
+        toast.success(res.message);
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.detail);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <section className='auth bg-base d-flex flex-wrap'>
       <div className='auth-left d-lg-block d-none'>
@@ -20,7 +47,7 @@ const SignUpLayer = () => {
               Welcome back! please enter your detail
             </p>
           </div>
-          <form action='#'>
+          <form onSubmit={handleSubmit}>
             <div className='icon-field mb-16'>
               <span className='icon top-50 translate-middle-y'>
                 <Icon icon='f7:person' />
@@ -29,6 +56,7 @@ const SignUpLayer = () => {
                 type='text'
                 className='form-control h-56-px bg-neutral-50 radius-12'
                 placeholder='Username'
+                name="username"
               />
             </div>
             <div className='icon-field mb-16'>
@@ -39,6 +67,7 @@ const SignUpLayer = () => {
                 type='email'
                 className='form-control h-56-px bg-neutral-50 radius-12'
                 placeholder='Email'
+                name="email"
               />
             </div>
             <div className='mb-20'>
@@ -52,6 +81,7 @@ const SignUpLayer = () => {
                     className='form-control h-56-px bg-neutral-50 radius-12'
                     id='your-password'
                     placeholder='Password'
+                    name="password"
                   />
                 </div>
                 <span
@@ -90,10 +120,10 @@ const SignUpLayer = () => {
             </div>
             <button
               type='submit'
-              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32'
+              className='btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32 disabled:opacity-50 disabled:cursor-not-allowed'
+              disabled={loading}
             >
-              {" "}
-              Sign Up
+              {loading ? "Signing Up..." : "Sign Up"}
             </button>
             <div className='mt-32 center-border-horizontal text-center'>
               <span className='bg-base z-1 px-4'>Or sign up with</span>
