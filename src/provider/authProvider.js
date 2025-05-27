@@ -11,6 +11,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
 
     const login = async (email, password) => {
       const form = new URLSearchParams();
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }) => {
           const res = await axios.post(`${API_URL}/token`, form, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
         });
+        setToken(res.data);
         return res.data;
       } catch (err) {
         throw err.response?.data || err;
@@ -53,6 +55,7 @@ export const AuthProvider = ({ children }) => {
         console.log("ERROR: ", err)
         localStorage.removeItem("token");
         setUser(null);
+        setToken(null);
         window.location.href = "/sign-in";
         throw err.response?.data || err;
       }
@@ -61,6 +64,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
       localStorage.removeItem("token");
       setUser(null);
+      setToken(null);
       window.location.href = "/sign-in";
     }
 
@@ -72,7 +76,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-      <AuthContext.Provider value={{ user, login, register, logout, getProfile }}>
+      <AuthContext.Provider value={{ user, login, register, logout, getProfile, setUser, setUser, setToken }}>
         {children}
       </AuthContext.Provider>
     )
