@@ -14,7 +14,7 @@ const Page = () => {
       {/* MasterLayout */}
       <MasterLayout>
         {/* Breadcrumb */}
-        <Breadcrumb title='Chat Message' />
+        <Breadcrumb title='Chat Message ' />
 
         {/* ChatMessageLayer */}
         <ChatMessageLayer />
