@@ -1,1 +1,1 @@
-export const API_URL = "http://api.ccpay.space";
+export const API_URL = "https://api.ccpay.space";
