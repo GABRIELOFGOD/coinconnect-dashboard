@@ -10,7 +10,7 @@ const PaymentGatewayLayer = () => {
           <Paypal />
 
           {/* RazorPay */}
-          <RazorPay />
+          {/* <RazorPay /> */}
         </div>
       </div>
     </div>
