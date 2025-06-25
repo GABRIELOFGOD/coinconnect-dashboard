@@ -1,4 +1,56 @@
+"use client";
+
+import { useAuth } from "@/provider/authProvider";
+import { API_URL } from "@/utils/constants";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 const Paypal = () => {
+  const { user } = useAuth();
+
+  const [privateKey, setPrivateKey] = useState("");
+  const [publicKey, setPublicKey] = useState("");
+  const [webUrl, setWebUrl] = useState("");
+  const [loadingAddUrl, setLoadingAddUrl] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setPrivateKey(user?.private_fingerprint);
+      setPublicKey(user?.public_fingerprint);
+      setWebUrl(user?.url);
+    }
+  }, [user]);
+  
+  const addUrl = async () => {
+    if (!webUrl) {
+      toast.error("Enter your website Url");
+      return;
+    }
+    try {
+      setLoadingAddUrl(true);
+      const token = localStorage.getItem("token");
+      const req = await fetch(`${API_URL}/users/url`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({url: webUrl})
+      });
+
+      const res = await req.json();
+      console.log("[res]: ", res);
+      if (res.status == "active") {
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(error.detail || "");
+      console.log("[ERROR]: ", error);
+    } finally {
+      setLoadingAddUrl(false);
+    }
+  }
+  
   return (
     <div className='col-xxl-12'>
       <div className='card radius-12 shadow-none border overflow-hidden'>
@@ -101,6 +153,46 @@ const Paypal = () => {
                 </div>
               </div>
             </div>
+            <div className='col-sm-12'>
+              <label
+                htmlFor='secretKey'
+                className='form-label fw-semibold text-primary-light text-md mb-8'
+              >
+                Your website URL (with HTTPS)
+                <span className='text-danger-600'>*</span>
+              </label>
+              <p className="text-sm">Please note that before you can change this, you can change this, you have to reach out to our support</p>
+              <div className="d-flex gap-2">
+                <div className='col-sm-9'>
+                  <input
+                    type='text'
+                    className='form-control radius-8 col-sm-9'
+                    id='secretKey'
+                    placeholder='E.g: https://yourwebsite.com'
+                    value={webUrl}
+                    onChange={e=>setWebUrl(e.target.value)}
+                  />
+                </div>
+                <div className='col-sm-3'>
+                  <button
+                    onClick={addUrl}
+                    disabled={loadingAddUrl}
+                    className='btn btn-primary border border-primary-600 text-md px-24 py-8 radius-8 w-100 text-center my-auto'
+                  >
+                    {loadingAddUrl ? "submitting" : "Add URL"}
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* <div className='col-sm-3'>
+              <button
+                // type='submit'
+                disabled={user?.url !== null & user?.url !== ""}
+                className='btn btn-primary border border-primary-600 text-md px-24 py-8 radius-8 w-100 text-center my-auto'
+              >
+                Add URL
+              </button>
+            </div> */}
             <div className='col-sm-6'>
               <label
                 htmlFor='secretKey'
@@ -114,7 +206,7 @@ const Paypal = () => {
                 className='form-control radius-8'
                 id='secretKey'
                 placeholder='Secret Key'
-                defaultValue='EGtgNkjt3I5lkhEEzicdot8gVH_PcFiKxx6ZBiXpVrp4QLDYcVQQMLX6MMG_fkS9_H0bwmZzBovb4jLP'
+                value={privateKey}
               />
             </div>
             <div className='col-sm-6'>
@@ -129,7 +221,7 @@ const Paypal = () => {
                 className='form-control radius-8'
                 id='publicKey'
                 placeholder='Publics Key'
-                defaultValue='AcRx7vvy79nbNxBemacGKmnnRe_CtxkItyspBS_eeMIPREwfCEIfPg1uX-bdqPrS_ZFGocxEH_SJRrIJ'
+                value={publicKey}
               />
             </div>
             {/* <div className='col-sm-6'>
@@ -149,10 +241,11 @@ const Paypal = () => {
                 <span className='visibility-hidden'>Save</span>
               </label> */}
               <button
-                type='submit'
+                // type='submit'
+                disabled
                 className='btn btn-primary border border-primary-600 text-md px-24 py-8 radius-8 w-100 text-center'
               >
-                Generate API key
+                Read Documentation
               </button>
             </div>
           </div>

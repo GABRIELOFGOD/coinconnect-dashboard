@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+        console.log("[USER]: ", res.data);
         setUser(res.data);
       } catch (err) {
         console.log("ERROR: ", err)

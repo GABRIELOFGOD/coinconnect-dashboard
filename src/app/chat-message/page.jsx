@@ -1,5 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import ChatMessageLayer from "@/components/ChatMessageLayer";
+import MachantConversationLayerByGabriel from "@/components/MachantConversationLayerByGabriel";
 import MasterLayout from "@/masterLayout/MasterLayout";
 
 export const metadata = {
@@ -17,7 +18,10 @@ const Page = () => {
         <Breadcrumb title='Chat Message' />
 
         {/* ChatMessageLayer */}
-        <ChatMessageLayer />
+        {/* <ChatMessageLayer /> */}
+
+        {/* MachantConversationLayerByGabriel */}
+        <MachantConversationLayerByGabriel />
       </MasterLayout>
     </>
   );
