@@ -67,31 +67,71 @@ const MachantConversationLayerByGabriel = () => {
           })));
           break;
           
-        case 'new_message':
-          // Add new message to current conversation if it's selected
-          if (selectedConversation && data.conversation_id === selectedConversation.id) {
-            setMessages(prev => [...prev, {
-              id: Date.now(),
-              message: data.message,
-              senderEmail: data.sender_email,
-              isMe: data.sender_email === userData.email,
-              timestamp: new Date().toISOString()
-            }]);
-          }
+        // case 'new_message':
+        //   // Add new message to current conversation if it's selected
+        //   if (selectedConversation && data.conversation_id === selectedConversation.id) {
+        //     setMessages(prev => [...prev, {
+        //       id: Date.now(),
+        //       message: data.message,
+        //       senderEmail: data.sender_email,
+        //       isMe: data.sender_email === userData.email,
+        //       timestamp: new Date().toISOString()
+        //     }]);
+        //   }
           
-          // Update conversations list
-          setConversations(prev => prev.map(conv => 
-            conv.id === data.conversation_id 
-              ? { 
-                  ...conv, 
-                  last_message: data.message, 
-                  last_message_time: new Date().toISOString(),
-                  user_name: data.user_name,
-                  user_email: data.user_email
-                }
-              : conv
-          ));
-          break;
+        //   // Update conversations list
+        //   setConversations(prev => prev.map(conv => 
+        //     conv.id === data.conversation_id 
+        //       ? { 
+        //           ...conv, 
+        //           last_message: data.message, 
+        //           last_message_time: new Date().toISOString(),
+        //           user_name: data.user_name,
+        //           user_email: data.user_email
+        //         }
+        //       : conv
+        //   ));
+        //   break;
+
+        case 'new_message':
+        // Always update conversations list first
+        setConversations(prev => prev.map(conv => 
+          conv.id === data.conversation_id 
+            ? { 
+                ...conv, 
+                last_message: data.message, 
+                last_message_time: new Date().toISOString(),
+                user_name: data.user_name,
+                user_email: data.user_email
+              }
+            : conv
+        ));
+        
+        // Add new message to current conversation if it's selected
+        if (selectedConversation && data.conversation_id === selectedConversation.id) {
+          const newMessage = {
+            id: data.id || Date.now(),
+            message: data.message,
+            senderEmail: data.sender_email,
+            isMe: data.sender_email === userData.email,
+            timestamp: data.created_at || new Date().toISOString()
+          };
+          
+          setMessages(prev => {
+            // Check if message already exists to avoid duplicates
+            const messageExists = prev.some(msg => 
+              msg.message === newMessage.message && 
+              msg.senderEmail === newMessage.senderEmail &&
+              Math.abs(new Date(msg.timestamp) - new Date(newMessage.timestamp)) < 1000
+            );
+            
+            if (!messageExists) {
+              return [...prev, newMessage];
+            }
+            return prev;
+          });
+        }
+        break;
           
         case 'message_sent':
           // Message confirmation - already added optimistically
