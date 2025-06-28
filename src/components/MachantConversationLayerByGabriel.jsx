@@ -16,6 +16,8 @@ const MachantConversationLayerByGabriel = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const messagesEndRef = useRef(null);
 
+  const selectedConversationRef = useRef(null);
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -34,6 +36,10 @@ const MachantConversationLayerByGabriel = () => {
     };
   }, [user]);
 
+  useEffect(() => {
+    console.log('selectedConversation state changed to:', selectedConversation);
+  }, [selectedConversation]);
+
   const connectWebSocket = (userData) => {
     if (ws) {
       ws.close();
@@ -47,6 +53,99 @@ const MachantConversationLayerByGabriel = () => {
       console.log('Connected to WebSocket');
       setIsConnected(true);
     });
+
+    // websocket.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   console.log('Received:', data);
+    //   console.log('Current selectedConversation when message received:', selectedConversation);
+      
+    //   switch (data.type) {
+    //     case 'conversations_list':
+    //       setConversations(data.data || []);
+    //       break;
+          
+    //     case 'conversation_messages':
+    //       setMessages(data.data.map(msg => ({
+    //         id: msg.id,
+    //         message: msg.message,
+    //         senderEmail: msg.sender_email,
+    //         isMe: msg.sender_email === userData.email,
+    //         timestamp: msg.created_at
+    //       })));
+    //       break;
+          
+    //     case 'new_message':
+    //       console.log('Received new_message:', data);
+
+    //       // Update conversation list
+    //       setConversations(prev => {
+    //         const existingConvIndex = prev.findIndex(conv => conv.id === data.conversation_id);
+    //         let updatedConversations = [...prev];
+
+    //         if (existingConvIndex >= 0) {
+    //           const updatedConv = {
+    //             ...updatedConversations[existingConvIndex],
+    //             last_message: data.message,
+    //             last_message_time: data.created_at || new Date().toISOString(),
+    //             user_name: data.user_name,
+    //             user_email: data.user_email
+    //           };
+    //           updatedConversations[existingConvIndex] = updatedConv;
+
+    //           // ✅ Sync selectedConversation if it's the same conversation
+    //           if (selectedConversation?.id === updatedConv.id) {
+    //             setSelectedConversation(updatedConv);
+    //           }
+    //         } else {
+    //           const newConversation = {
+    //             id: data.conversation_id,
+    //             user_email: data.user_email,
+    //             user_name: data.user_name,
+    //             last_message: data.message,
+    //             last_message_time: data.created_at || new Date().toISOString(),
+    //             message_count: 1,
+    //             created_at: data.created_at || new Date().toISOString(),
+    //             updated_at: data.created_at || new Date().toISOString()
+    //           };
+    //           updatedConversations = [newConversation, ...prev];
+    //         }
+
+    //         return updatedConversations;
+    //       });
+
+    //       // Add message to chat if conversation is currently selected
+    //       if (selectedConversation?.id === data.conversation_id) {
+    //         const newMessage = {
+    //           id: data.id || Date.now(),
+    //           message: data.message,
+    //           senderEmail: data.sender_email,
+    //           isMe: data.sender_email === userData.email,
+    //           timestamp: data.created_at || new Date().toISOString()
+    //         };
+
+    //         setMessages(prev => {
+    //           if (data.id && prev.some(msg => msg.id === data.id)) return prev;
+
+    //           if (!data.id) {
+    //             const isDuplicate = prev.some(msg =>
+    //               msg.message === newMessage.message &&
+    //               msg.senderEmail === newMessage.senderEmail &&
+    //               Math.abs(new Date(msg.timestamp) - new Date(newMessage.timestamp)) < 2000
+    //             );
+    //             if (isDuplicate) return prev;
+    //           }
+
+    //           return [...prev, newMessage];
+    //         });
+    //       }
+    //       break;
+
+    //     case 'message_sent':
+    //       // Message confirmation - already added optimistically
+    //       break;
+
+    //     }
+    //   };
 
     websocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -67,74 +166,92 @@ const MachantConversationLayerByGabriel = () => {
           })));
           break;
           
-        // case 'new_message':
-        //   // Add new message to current conversation if it's selected
-        //   if (selectedConversation && data.conversation_id === selectedConversation.id) {
-        //     setMessages(prev => [...prev, {
-        //       id: Date.now(),
-        //       message: data.message,
-        //       senderEmail: data.sender_email,
-        //       isMe: data.sender_email === userData.email,
-        //       timestamp: new Date().toISOString()
-        //     }]);
-        //   }
-          
-        //   // Update conversations list
-        //   setConversations(prev => prev.map(conv => 
-        //     conv.id === data.conversation_id 
-        //       ? { 
-        //           ...conv, 
-        //           last_message: data.message, 
-        //           last_message_time: new Date().toISOString(),
-        //           user_name: data.user_name,
-        //           user_email: data.user_email
-        //         }
-        //       : conv
-        //   ));
-        //   break;
-
         case 'new_message':
-        // Always update conversations list first
-        setConversations(prev => prev.map(conv => 
-          conv.id === data.conversation_id 
-            ? { 
-                ...conv, 
-                last_message: data.message, 
-                last_message_time: new Date().toISOString(),
+          console.log('Received new_message:', data);
+          
+          // Always update conversations list first
+          setConversations(prev => {
+            const existingConvIndex = prev.findIndex(conv => conv.id === data.conversation_id);
+            
+            if (existingConvIndex >= 0) {
+              const updated = [...prev];
+              updated[existingConvIndex] = {
+                ...updated[existingConvIndex],
+                last_message: data.message,
+                last_message_time: data.created_at || new Date().toISOString(),
                 user_name: data.user_name,
                 user_email: data.user_email
-              }
-            : conv
-        ));
-        
-        // Add new message to current conversation if it's selected
-        if (selectedConversation && data.conversation_id === selectedConversation.id) {
-          const newMessage = {
-            id: data.id || Date.now(),
-            message: data.message,
-            senderEmail: data.sender_email,
-            isMe: data.sender_email === userData.email,
-            timestamp: data.created_at || new Date().toISOString()
-          };
-          
-          setMessages(prev => {
-            // Check if message already exists to avoid duplicates
-            const messageExists = prev.some(msg => 
-              msg.message === newMessage.message && 
-              msg.senderEmail === newMessage.senderEmail &&
-              Math.abs(new Date(msg.timestamp) - new Date(newMessage.timestamp)) < 1000
-            );
-            
-            if (!messageExists) {
-              return [...prev, newMessage];
+              };
+              return updated;
+            } else {
+              // If conversation doesn't exist in list, create it
+              const newConversation = {
+                id: data.conversation_id,
+                user_email: data.user_email,
+                user_name: data.user_name,
+                last_message: data.message,
+                last_message_time: data.created_at || new Date().toISOString(),
+                message_count: 1,
+                created_at: data.created_at || new Date().toISOString(),
+                updated_at: data.created_at || new Date().toISOString()
+              };
+              return [newConversation, ...prev];
             }
-            return prev;
           });
-        }
-        break;
           
+          // Use the ref to get the current selected conversation (avoids closure issue)
+          const currentSelectedConversation = selectedConversationRef.current;
+          const selectedId = currentSelectedConversation?.id;
+          const messageConvId = data.conversation_id;
+          
+          console.log('Comparison:', { selectedId, messageConvId, equal: selectedId == messageConvId });
+          
+          if (currentSelectedConversation && String(selectedId) === String(messageConvId)) {
+            console.log('Adding message to active DM:', data);
+            
+            const newMessage = {
+              id: data.id || Date.now(),
+              message: data.message,
+              senderEmail: data.sender_email,
+              isMe: data.sender_email === userData.email,
+              timestamp: data.created_at || new Date().toISOString()
+            };
+            
+            setMessages(prev => {
+              // Check if this exact message already exists (by ID if available)
+              if (data.id && prev.some(msg => msg.id === data.id)) {
+                console.log('Message already exists by ID');
+                return prev;
+              }
+              
+              // Fallback duplicate check for messages without ID
+              if (!data.id) {
+                const isDuplicate = prev.some(msg => 
+                  msg.message === newMessage.message && 
+                  msg.senderEmail === newMessage.senderEmail &&
+                  Math.abs(new Date(msg.timestamp) - new Date(newMessage.timestamp)) < 2000
+                );
+                
+                if (isDuplicate) {
+                  console.log('Message is duplicate (fallback check)');
+                  return prev;
+                }
+              }
+              
+              console.log('Adding new message to DM');
+              return [...prev, newMessage];
+            });
+          } else {
+            console.log('Message not added - conversation not selected or ID mismatch');
+          }
+          break;
+
         case 'message_sent':
           // Message confirmation - already added optimistically
+          break;
+
+        case 'conversations_list':
+          setConversations(data.data || []);
           break;
       }
     };
@@ -159,7 +276,9 @@ const MachantConversationLayerByGabriel = () => {
   };
 
   const handleConversationSelect = (conversation) => {
+    console.log('Selecting conversation:', conversation);
     setSelectedConversation(conversation);
+    selectedConversationRef.current = conversation; // Add this line
     setMessages([]);
     
     if (ws && ws.readyState === WebSocket.OPEN) {
